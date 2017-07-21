@@ -1,4 +1,10 @@
 echo "Installing Chef Server"
+
+user="$2"
+password="$4"
+email="$6"
+org="$8"
+
 apt-get update
 wget https://packages.chef.io/files/stable/chef-server/12.15.7/ubuntu/14.04/chef-server-core_12.15.7-1_amd64.deb
 dpkg -i chef-server-core_12.15.7-1_amd64.deb
@@ -7,8 +13,8 @@ dpkg -i chef-server-core_12.15.7-1_amd64.deb
 chmod 600 /var/swap.1
 /sbin/swapon /var/swap.1
 chef-server-ctl reconfigure
-chef-server-ctl user-create akajain Akanksha Jain akanksha_jain@persistent.com 'root123' --filename /tmp/akajain.pem
-chef-server-ctl org-create terraform 'Terraform Chef Inc' --association_user akajain --filename terraform-validator.pem
+chef-server-ctl user-create ${user} ${user} User  ${email} '${password}' --filename /tmp/${user}.pem
+chef-server-ctl org-create  ${org} '${org} Inc' --association_user ${user} --filename ${org}.pem
 chef-server-ctl install chef-manage
 chef-server-ctl reconfigure
 chef-manage-ctl reconfigure --accept-license
